@@ -3,7 +3,6 @@ import { AppProvider } from '../context/AppContext';
 import { AuthProvider, useAuth } from '../context/AuthContext';
 import { DatabaseProvider } from '../context/DatabaseContext';
 import AuthLogin from './AuthLogin';
-import AdminDashboard from './AdminDashboard';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import Dashboard from './Dashboard';
@@ -26,6 +25,13 @@ import CustomerShipments from './CustomerShipments';
 import InvoiceManagement from './InvoiceManagement';
 import DisputeManagement from './DisputeManagement';
 import AIInsightsDashboard from './AIInsightsDashboard';
+import AnomalyDetection from './AnomalyDetection';
+import DemandForecasting from './DemandForecasting';
+import UnifiedRegistration from './UnifiedRegistration';
+import DedicatedLoginPages from './DedicatedLoginPages';
+import PredictiveETA from './PredictiveETA';
+import CustomerTrackingPortal from './CustomerTrackingPortal';
+import EnhancedAdminDashboard from './EnhancedAdminDashboard';
 
 const AppContent: React.FC = () => {
   const { state: authState } = useAuth();
@@ -39,7 +45,7 @@ const AppContent: React.FC = () => {
     }
   }, [authState]);
 
-  const handleLogin = (role: 'admin' | 'logistics' | 'operator' | 'customer', userData: any) => {
+  const handleLogin = (role: 'admin' | 'logistics' | 'operator' | 'customer', _userData?: unknown) => {
     setUserRole(role);
     setActiveTab('dashboard');
   };
@@ -54,7 +60,7 @@ const AppContent: React.FC = () => {
     if (userRole === 'admin') {
       switch (activeTab) {
         case 'dashboard':
-          return <AdminDashboard />;
+          return <EnhancedAdminDashboard />;
         case 'approvals':
           return <ShipmentApproval userRole="admin" />;
         case 'verification':
