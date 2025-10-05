@@ -35,6 +35,10 @@ import ProofOfDelivery from './components/ProofOfDelivery';
 import VCODEAssignmentSystem from './components/VCODEAssignmentSystem';
 import EnhancedAdminDashboard from './components/EnhancedAdminDashboard';
 import AIAssistant from './components/AIAssistant';
+import ShipperPortal from './components/ShipperPortal';
+import LogisticsOperationalFlow from './components/LogisticsOperationalFlow';
+import OperatorOperationalFlow from './components/OperatorOperationalFlow';
+import CustomerOperationalFlow from './components/CustomerOperationalFlow';
 
 const AppContent: React.FC = () => {
   const { state: authState } = useAuth();
@@ -89,65 +93,82 @@ const AppContent: React.FC = () => {
       }
     }
 
-    // Regular user content
-    switch (activeTab) {
-      case 'dashboard':
-        return <Dashboard userRole={userRole!} onTabChange={handleTabChange} />;
-      case 'create-shipment':
-        return <EnhancedShipmentCreation />;
-      case 'shipment-approval':
-        return <ShipmentApproval userRole={userRole as 'logistics'} />;
-      case 'operators':
-        return <OperatorManagement />;
-      case 'tracking':
-        return <LiveTracking />;
-      case 'my-shipments':
-        return <CustomerShipments />;
-      case 'available-jobs':
-        return <AvailableJobs />;
-      case 'active-shipments':
-        return <LiveTracking />;
-      case 'live-map':
-        return <LiveTrackingMap shipmentId="TAS-2024-001" />;
-      case 'route-optimizer':
-        return (
-          <AIRouteOptimizer
-            pickup={{ lat: 28.6139, lng: 77.2090, address: 'Delhi, India' }}
-            destination={{ lat: 19.0760, lng: 72.8777, address: 'Mumbai, India' }}
-            vehicleType="truck"
-            urgency="standard"
-            onRouteSelect={(route) => console.log('Selected route:', route)}
-          />
-        );
-      case 'analytics':
-        return <Analytics />;
-      case 'ai-insights':
-        return <AIInsightsDashboard />;
-      case 'predictive-eta':
-        return (
-          <PredictiveETA
-            shipmentId="TAS-2024-001"
-            currentLocation={{ lat: 28.6139, lng: 77.2090, address: 'Delhi, India' }}
-            destination={{ lat: 19.0760, lng: 72.8777, address: 'Mumbai, India' }}
-          />
-        );
-      case 'demand-forecasting':
-        return <DemandForecasting />;
-      case 'invoices':
-        return <InvoiceManagement userRole={userRole!} />;
-      case 'customer-tracking':
-        return <CustomerTrackingPortal />;
-      case 'company-registration':
-        return <CompanyRegistration />;
-      case 'vehicle-registration':
-        return <VehicleRegistration />;
-      case 'verification':
-        return <VerificationDashboard />;
-      case 'operational-flow':
-        return <OperationalFlow />;
-      default:
-        return <Dashboard userRole={userRole!} onTabChange={handleTabChange} />;
+    // Shipper-specific content
+    if (userRole === 'shipper') {
+      switch (activeTab) {
+        case 'dashboard':
+          return <ShipperPortal />;
+        case 'create-shipment':
+          return <EnhancedShipmentCreation />;
+        case 'tracking':
+          return <LiveTracking />;
+        case 'invoices':
+          return <InvoiceManagement userRole="shipper" />;
+        case 'analytics':
+          return <Analytics />;
+        case 'ai-insights':
+          return <AIInsightsDashboard />;
+        case 'operational-flow':
+          return <LogisticsOperationalFlow />;
+        default:
+          return <ShipperPortal />;
+      }
     }
+
+    // Fleet Operator & Individual Vehicle Owner content
+    if (userRole === 'fleet_operator' || userRole === 'individual_vehicle_owner') {
+      switch (activeTab) {
+        case 'dashboard':
+          return <Dashboard userRole="operator" onTabChange={handleTabChange} />;
+        case 'available-jobs':
+          return <AvailableJobs />;
+        case 'active-shipments':
+          return <LiveTracking />;
+        case 'tracking':
+          return <LiveTracking />;
+        case 'live-map':
+          return <LiveTrackingMap shipmentId="TAS-2024-001" />;
+        case 'invoices':
+          return <InvoiceManagement userRole="operator" />;
+        case 'predictive-eta':
+          return (
+            <PredictiveETA
+              shipmentId="TAS-2024-001"
+              currentLocation={{ lat: 28.6139, lng: 77.2090, address: 'Delhi, India' }}
+              destination={{ lat: 19.0760, lng: 72.8777, address: 'Mumbai, India' }}
+            />
+          );
+        case 'operational-flow':
+          return <OperatorOperationalFlow />;
+        default:
+          return <Dashboard userRole="operator" onTabChange={handleTabChange} />;
+      }
+    }
+
+    // Customer content
+    if (userRole === 'customer') {
+      switch (activeTab) {
+        case 'dashboard':
+          return <Dashboard userRole="customer" onTabChange={handleTabChange} />;
+        case 'my-shipments':
+          return <CustomerShipments />;
+        case 'tracking':
+          return <LiveTracking />;
+        case 'live-map':
+          return <LiveTrackingMap shipmentId="TAS-2024-001" />;
+        case 'invoices':
+          return <InvoiceManagement userRole="customer" />;
+        case 'customer-tracking':
+          return <CustomerTrackingPortal />;
+        case 'operational-flow':
+          return <CustomerOperationalFlow />;
+        default:
+          return <Dashboard userRole="customer" onTabChange={handleTabChange} />;
+      }
+    }
+
+    // Fallback
+    return <Dashboard userRole={userRole!} onTabChange={handleTabChange} />;
   };
 
   // Show appropriate login page if not authenticated

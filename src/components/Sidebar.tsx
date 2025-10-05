@@ -28,7 +28,7 @@ interface SidebarProps {
   isOpen: boolean;
   activeTab: string;
   onTabChange: (tab: string) => void;
-  userRole: 'admin' | 'logistics' | 'operator' | 'customer';
+  userRole: 'admin' | 'shipper' | 'fleet_operator' | 'individual_vehicle_owner' | 'customer' | 'logistics' | 'operator';
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, activeTab, onTabChange, userRole }) => {
@@ -47,9 +47,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, activeTab, onTabChange, userR
           { id: 'unified-registration', label: 'Registration Portal', icon: UserPlus },
           { id: 'settings', label: 'System Settings', icon: Settings },
         ];
+      case 'shipper':
       case 'logistics':
         return [
-          { id: 'dashboard', label: 'Shipper Portal', icon: Home },
+          { id: 'dashboard', label: 'Dashboard', icon: Home },
+          { id: 'operational-flow', label: 'Operational Flow', icon: Globe },
           { id: 'create-shipment', label: 'Create Shipment', icon: Package },
           { id: 'tracking', label: 'Live Tracking', icon: MapPin },
           { id: 'invoices', label: 'Invoice Management', icon: FileText },
@@ -57,27 +59,29 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, activeTab, onTabChange, userR
           { id: 'ai-insights', label: 'AI Insights', icon: Brain },
           { id: 'settings', label: 'Settings', icon: Settings },
         ];
+      case 'fleet_operator':
+      case 'individual_vehicle_owner':
       case 'operator':
         return [
           { id: 'dashboard', label: 'Dashboard', icon: Home },
+          { id: 'operational-flow', label: 'Operational Flow', icon: Globe },
           { id: 'available-jobs', label: 'Available Jobs', icon: Package },
           { id: 'active-shipments', label: 'Active Shipments', icon: Truck },
           { id: 'tracking', label: 'Live Tracking', icon: MapPin },
           { id: 'live-map', label: 'Live Map View', icon: MapPin },
           { id: 'invoices', label: 'Earnings & Invoices', icon: CreditCard },
           { id: 'predictive-eta', label: 'Predictive ETA', icon: Zap },
-          { id: 'operational-flow', label: 'Operational Flow', icon: Globe },
           { id: 'settings', label: 'Settings', icon: Settings },
         ];
       case 'customer':
         return [
           { id: 'dashboard', label: 'Dashboard', icon: Home },
+          { id: 'operational-flow', label: 'Operational Flow', icon: Globe },
           { id: 'my-shipments', label: 'My Shipments', icon: Package },
           { id: 'tracking', label: 'Track Shipment', icon: MapPin },
           { id: 'live-map', label: 'Live Map View', icon: MapPin },
           { id: 'invoices', label: 'Invoices & Billing', icon: Download },
           { id: 'customer-tracking', label: 'Track Shipment', icon: Search },
-          { id: 'operational-flow', label: 'Operational Flow', icon: Globe },
           { id: 'settings', label: 'Settings', icon: Settings },
         ];
       default:
