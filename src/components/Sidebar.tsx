@@ -49,21 +49,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, activeTab, onTabChange, userR
         ];
       case 'logistics':
         return [
-          { id: 'dashboard', label: 'Dashboard', icon: Home },
+          { id: 'dashboard', label: 'Shipper Portal', icon: Home },
           { id: 'create-shipment', label: 'Create Shipment', icon: Package },
-          { id: 'shipment-approval', label: 'Approve Shipments', icon: CheckCircle },
           { id: 'tracking', label: 'Live Tracking', icon: MapPin },
-          { id: 'live-map', label: 'Live Map View', icon: MapPin },
-          { id: 'route-optimizer', label: 'AI Route Optimizer', icon: Globe },
-          { id: 'operators', label: 'Manage Operators', icon: Users },
           { id: 'invoices', label: 'Invoice Management', icon: FileText },
           { id: 'analytics', label: 'Analytics', icon: BarChart3 },
           { id: 'ai-insights', label: 'AI Insights', icon: Brain },
-          { id: 'predictive-eta', label: 'Predictive ETA', icon: Zap },
-          { id: 'demand-forecasting', label: 'Demand Forecasting', icon: TrendingUp },
-          { id: 'company-registration', label: 'Company Registration', icon: FileText },
-          { id: 'vehicle-registration', label: 'Vehicle Registration', icon: Truck },
-          { id: 'operational-flow', label: 'Operational Flow', icon: Globe },
           { id: 'settings', label: 'Settings', icon: Settings },
         ];
       case 'operator':

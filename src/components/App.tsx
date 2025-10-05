@@ -32,6 +32,7 @@ import DedicatedLoginPages from './DedicatedLoginPages';
 import PredictiveETA from './PredictiveETA';
 import CustomerTrackingPortal from './CustomerTrackingPortal';
 import EnhancedAdminDashboard from './EnhancedAdminDashboard';
+import ShipperPortal from './ShipperPortal';
 
 const AppContent: React.FC = () => {
   const { state: authState } = useAuth();
@@ -81,6 +82,13 @@ const AppContent: React.FC = () => {
           return <DedicatedLoginPages userType="admin" />;
         default:
           return <AdminDashboard />;
+      }
+    }
+
+    // Logistics/Shipper content
+    if (userRole === 'logistics') {
+      if (activeTab === 'dashboard') {
+        return <ShipperPortal />;
       }
     }
 
